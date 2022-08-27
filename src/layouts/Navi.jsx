@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { Container, Menu } from "semantic-ui-react";
 import CartSummary from "./CartSummary";
 import SignedIn from "./SignedIn";
@@ -7,15 +8,15 @@ import SignedOut from "./SignedOut";
 export default function Navi() {
   const [isAuthenticated, setIsAuthenticated] = useState(true);
 
-  function handleSingOut() {
+  const history = useHistory();
 
-    setIsAuthenticated(false)
+  function handleSingOut() {
+    setIsAuthenticated(false);
+    history.push("/");
   }
 
-
   function handleSingIn() {
-
-    setIsAuthenticated(true)
+    setIsAuthenticated(true);
   }
 
   return (
@@ -28,7 +29,11 @@ export default function Navi() {
           <Menu.Menu position="right">
             <CartSummary />
 
-            {isAuthenticated ? <SignedIn signOut={handleSingOut}/> : <SignedOut signIn={handleSingIn} />}
+            {isAuthenticated ? (
+              <SignedIn signOut={handleSingOut} />
+            ) : (
+              <SignedOut signIn={handleSingIn} />
+            )}
           </Menu.Menu>
         </Container>
       </Menu>
